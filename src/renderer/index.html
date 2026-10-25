@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: http: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self';">
+<title>webOS Control Center</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="panel" id="panel">
+  <div class="ambient a1"></div>
+  <div class="ambient a2"></div>
+  <div class="ambient a3"></div>
+
+  <header class="app-header">
+    <div class="brand" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3.5 8.2l3.2 8.4 5.3-8.4 5.3 8.4 3.2-8.4"/>
+      </svg>
+    </div>
+    <div class="head-txt">
+      <div class="head-title" id="tvName">webOS Control Center</div>
+      <div class="head-sub">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="head-status" id="statusText">Starting…</span>
+      </div>
+    </div>
+    <div class="win-btns">
+      <button class="win-btn" id="pinBtn" title="Always on top" aria-label="Always on top">
+        <svg viewBox="0 0 24 24"><path d="M9 4h6l-1 6 3.2 3.2v1.3H6.8v-1.3L10 10 9 4z"/><path d="M12 14.5V21"/></svg>
+      </button>
+      <button class="win-btn" id="minBtn" title="Minimize" aria-label="Minimize">
+        <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
+      </button>
+      <button class="win-btn close" id="closeBtn" title="Hide to tray" aria-label="Hide to tray">
+        <svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="Sections">
+    <div class="tab-ind" id="tabInd"></div>
+    <button class="tab active" data-tab="remote">
+      <svg viewBox="0 0 24 24"><rect x="7.5" y="2.5" width="9" height="19" rx="4"/><circle cx="12" cy="8" r="2.1"/><path d="M9.6 15.2h4.8M9.6 17.8h3"/></svg>
+      <span>Remote</span>
+    </button>
+    <button class="tab" data-tab="apps">
+      <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>
+      <span>Apps</span>
+    </button>
+    <button class="tab" data-tab="settings">
+      <svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+  <main class="content">
+    <section class="tab-panel active" data-panel="remote" id="panelRemote">
+      <div class="now-strip">
+        <span class="now-pulse" id="nowPulse"></span>
+        <span class="now-app" id="nowApp">Ready when you are</span>
+        <span class="now-sep"></span>
+        <span class="now-meta" id="nowMeta">Not connected</span>
+        <button class="now-refresh" id="refreshBtn" title="Refresh TV state" aria-label="Refresh TV state">
+          <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4.5V11h-6.5"/></svg>
+        </button>
+      </div>
+
+      <section class="card volume-card" id="volumeCard">
+        <div class="vol-readout">
+          <div class="vol-num" id="volNum">25</div>
+          <div class="vol-cap">VOLUME</div>
+        </div>
+        <div class="vol-track-wrap">
+          <input id="volSlider" class="vol-slider" type="range" min="0" max="100" step="1" value="25" aria-label="Volume">
+          <div class="vol-labels"><span>0</span><span>50</span><span>100</span></div>
+        </div>
+        <button class="round-btn mute-btn" id="muteBtn" aria-label="Mute">
+          <svg class="ico-vol" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3.5v6h3L11 19V5z"/><path d="M15.4 8.6a4.8 4.8 0 0 1 0 6.8"/><path d="M18.2 5.8a8.8 8.8 0 0 1 0 12.4"/></svg>
+          <svg class="ico-mute" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3.5v6h3L11 19V5z"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg>
+        </button>
+      </section>
+
+      <div class="remote-main">
+        <div class="side-col">
+          <button class="side-btn" data-key="BACK" title="Back (Esc)">
+            <span class="sb-ico"><svg viewBox="0 0 24 24"><path d="M19 12H5.5"/><path d="M11 6l-5.5 6 5.5 6"/></svg></span>
+            <span class="sb-label">Back</span>
+          </button>
+          <button class="side-btn" data-key="HOME" title="Home (H)">
+            <span class="sb-ico"><svg viewBox="0 0 24 24"><path d="M3.5 10.7L12 3.8l8.5 6.9"/><path d="M5.7 9.6V20h12.6V9.6"/><path d="M9.7 20v-5.6h4.6V20"/></svg></span>
+            <span class="sb-label">Home</span>
+          </button>
+        </div>
+
+        <div class="dpad" id="dpad">
+          <div class="dpad-halo"></div>
+          <div class="dpad-ring"></div>
+          <button class="dpad-arrow up" data-key="UP" aria-label="Up" title="Up">
+            <svg viewBox="0 0 24 24"><path d="M6 14.5l6-6 6 6"/></svg>
+          </button>
+          <button class="dpad-arrow right" data-key="RIGHT" aria-label="Right" title="Right">
+            <svg viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6"/></svg>
+          </button>
+          <button class="dpad-arrow down" data-key="DOWN" aria-label="Down" title="Down">
+            <svg viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg>
+          </button>
+          <button class="dpad-arrow left" data-key="LEFT" aria-label="Left" title="Left">
+            <svg viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></svg>
+          </button>
+          <button class="dpad-ok" data-key="ENTER" aria-label="OK" title="OK (Enter)"><span>OK</span></button>
+        </div>
+
+        <div class="side-col">
+          <button class="side-btn power-btn" id="powerBtn" title="Power">
+            <span class="sb-ico"><svg viewBox="0 0 24 24"><path d="M12 3.2v8.6"/><path d="M6.4 6.2a8.2 8.2 0 1 0 11.2 0"/></svg></span>
+            <span class="sb-label" id="powerLabel">Power</span>
+          </button>
+          <button class="side-btn" id="inputsBtn" title="Inputs">
+            <span class="sb-ico"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M7.5 12h8"/><path d="M13.5 9l3 3-3 3"/></svg></span>
+            <span class="sb-label">Inputs</span>
+          </button>
+        </div>
+      </div>
+
+      <section class="card transport">
+        <div class="transport-group">
+          <button class="t-btn" data-media="rewind" title="Rewind" aria-label="Rewind">
+            <svg viewBox="0 0 24 24" class="fill"><path d="M11 6v12l-8-6 8-6z"/><path d="M21 6v12l-8-6 8-6z"/></svg>
+          </button>
+          <button class="t-btn" data-media="play" title="Play" aria-label="Play">
+            <svg viewBox="0 0 24 24" class="fill"><path d="M8 5.5l11 6.5-11 6.5v-13z"/></svg>
+          </button>
+          <button class="t-btn" data-media="pause" title="Pause" aria-label="Pause">
+            <svg viewBox="0 0 24 24" class="fill"><rect x="7" y="5" width="3.6" height="14" rx="1.3"/><rect x="13.4" y="5" width="3.6" height="14" rx="1.3"/></svg>
+          </button>
+          <button class="t-btn" data-media="fastForward" title="Fast forward" aria-label="Fast forward">
+            <svg viewBox="0 0 24 24" class="fill"><path d="M3 6v12l8-6-8-6z"/><path d="M13 6v12l8-6-8-6z"/></svg>
+          </button>
+        </div>
+        <div class="v-div"></div>
+        <div class="ch-group">
+          <button class="ch-btn" data-key="CHANNELDOWN" title="Channel down">−</button>
+          <button class="ch-display" id="chDisplay" title="Enter a channel">
+            <span class="ch-cap">CH</span><b id="chNum">—</b>
+          </button>
+          <button class="ch-btn" data-key="CHANNELUP" title="Channel up">+</button>
+        </div>
+      </section>
+
+      <div class="quick-grid">
+        <button class="quick" id="quickSettings">
+          <svg viewBox="0 0 24 24"><path d="M4 6.5h16M4 12h16M4 17.5h16"/><circle cx="9" cy="6.5" r="1.9"/><circle cx="15" cy="12" r="1.9"/><circle cx="8" cy="17.5" r="1.9"/></svg>
+          <span>TV settings</span>
+        </button>
+        <button class="quick" id="quickKeyboard">
+          <svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6.5 10h.01M10.2 10h.01M13.9 10h.01M17.6 10h.01M7 14h10"/></svg>
+          <span>Keyboard</span>
+        </button>
+        <button class="quick" id="quickScreen">
+          <svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="12.5" rx="2.5"/><path d="M8.5 20.5h7M12 16.5v4M4 20.5L20 4"/></svg>
+          <span>Screen off</span>
+        </button>
+        <button class="quick" id="quickInputs">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M8 12h7"/><path d="M12.5 8.8L15.7 12l-3.2 3.2"/></svg>
+          <span>Inputs</span>
+        </button>
+      </div>
+
+      <div class="kbd-hint">
+        <span><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> navigate</span>
+        <span><kbd>Enter</kbd> OK</span>
+        <span><kbd>Esc</kbd> back</span>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="apps" id="panelApps">
+      <div class="section-head">
+        <div>
+          <h1>Apps</h1>
+          <p id="appsSub">Your TV’s app library</p>
+        </div>
+        <button class="icon-ghost" id="appsRefresh" title="Reload apps" aria-label="Reload apps">
+          <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4.5V11h-6.5"/></svg>
+        </button>
+      </div>
+
+      <div class="search-wrap">
+        <svg class="search-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.4"/><path d="M15.8 15.8L20 20"/></svg>
+        <input id="appSearch" type="text" placeholder="Search apps" autocomplete="off" spellcheck="false" aria-label="Search apps">
+        <button class="search-clear" id="searchClear" hidden aria-label="Clear search">
+          <svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>
+        </button>
+      </div>
+
+      <div class="apps-scroll" id="appsScroll">
+        <div class="apps-grid" id="appsGrid"></div>
+        <div class="apps-empty" id="appsEmpty" hidden>
+          <div class="empty-ico">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.4"/><path d="M15.8 15.8L20 20"/></svg>
+          </div>
+          <p>No apps match that search.</p>
+        </div>
+      </div>
+
+      <div class="apps-foot">
+        <button class="ghost-action" id="addAppBtn">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Custom app
+        </button>
+        <button class="ghost-action" id="tvHomeBtn">
+          <svg viewBox="0 0 24 24"><path d="M3.5 10.5L12 3.8l8.5 6.7"/><path d="M5.7 9.3V20h12.6V9.3"/></svg>
+          TV home
+        </button>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="settings" id="panelSettings">
+      <div class="section-head">
+        <div>
+          <h1>Settings</h1>
+          <p>Inputs, device and this widget</p>
+        </div>
+        <span class="version-chip" id="versionChip">v1.0</span>
+      </div>
+
+      <div class="set-card">
+        <div class="set-title">Inputs</div>
+        <div class="input-grid" id="inputGrid">
+          <div class="input-skeleton"></div>
+          <div class="input-skeleton"></div>
+          <div class="input-skeleton"></div>
+        </div>
+      </div>
+
+      <div class="set-card">
+        <div class="set-title">Sound</div>
+        <div class="row-line">
+          <div class="row-ico">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6.5 9H3.5v6h3L11 19V5z"/><path d="M15.4 8.6a4.8 4.8 0 0 1 0 6.8"/><path d="M18.2 5.8a8.8 8.8 0 0 1 0 12.4"/></svg>
+          </div>
+          <div class="row-txt">
+            <div class="row-main" id="soundOutput">TV speakers</div>
+            <div class="row-sub">Current audio output</div>
+          </div>
+          <button class="mini-btn" id="soundSettings">Change</button>
+        </div>
+      </div>
+
+      <div class="set-card">
+        <div class="set-title">Device</div>
+        <div class="kv"><span>Model</span><b id="infoModel">—</b></div>
+        <div class="kv"><span>webOS</span><b id="infoVersion">—</b></div>
+        <div class="kv"><span>IP address</span><b id="infoIp">—</b></div>
+        <div class="kv"><span>MAC address</span><b id="infoMac">—</b></div>
+        <button class="wide-btn" id="tvSettingsBtn">Open TV settings</button>
+      </div>
+
+      <div class="set-card">
+        <div class="set-title">This widget</div>
+        <button class="toggle-row" data-toggle="alwaysOnTop" role="switch" aria-checked="true">
+          <span class="tr-label"><span class="tr-main">Always on top</span><span class="tr-sub">Keep the widget above other windows</span></span>
+          <span class="switch"></span>
+        </button>
+        <button class="toggle-row" data-toggle="launchAtLogin" role="switch" aria-checked="false">
+          <span class="tr-label"><span class="tr-main">Launch at login</span><span class="tr-sub">Start with Windows</span></span>
+          <span class="switch"></span>
+        </button>
+        <button class="toggle-row" data-toggle="closeToTray" role="switch" aria-checked="true">
+          <span class="tr-label"><span class="tr-main">Close to tray</span><span class="tr-sub">Keep running when you hide it</span></span>
+          <span class="switch"></span>
+        </button>
+        <button class="toggle-row" data-toggle="autoReconnect" role="switch" aria-checked="true">
+          <span class="tr-label"><span class="tr-main">Auto reconnect</span><span class="tr-sub">Recover after the TV drops off Wi‑Fi</span></span>
+          <span class="switch"></span>
+        </button>
+        <button class="toggle-row" data-toggle="sounds" role="switch" aria-checked="true">
+          <span class="tr-label"><span class="tr-main">Interface sounds</span><span class="tr-sub">A soft click when you press a button</span></span>
+          <span class="switch"></span>
+        </button>
+        <div class="set-actions">
+          <button class="mini-btn" id="changeTvBtn">Change TV</button>
+          <button class="mini-btn" id="quitBtn">Quit widget</button>
+          <button class="mini-btn danger" id="forgetBtn">Forget TV</button>
+        </div>
+      </div>
+
+      <div class="set-card">
+        <div class="set-title">Wake on LAN</div>
+        <p class="set-note">Lets this widget turn the TV on. On the TV, enable <b>Settings → General → Devices → TV On With Mobile</b>, then keep the TV on Wi‑Fi (not fully unplugged).</p>
+        <div class="mac-row">
+          <input id="macInput" type="text" placeholder="AA:BB:CC:DD:EE:FF" autocomplete="off" spellcheck="false" aria-label="TV MAC address">
+          <button id="saveMacBtn">Save</button>
+        </div>
+        <button class="wide-btn" id="wakeBtn">Wake TV</button>
+      </div>
+
+      <div class="set-card">
+        <div class="set-title">Power</div>
+        <div class="power-actions">
+          <button class="wide-btn" id="screenOffBtn">Screen off</button>
+          <button class="wide-btn danger" id="powerOffBtn">Turn TV off</button>
+        </div>
+      </div>
+
+      <div class="about">
+        <span>webOS Control Center <b id="appVersion">1.0.1</b></span>
+        <span class="about-dot">·</span>
+        <button id="openDataBtn">config folder</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast-host" id="toastHost" aria-live="polite"></div>
+
+  <!-- ------------------------------------------------------------- setup -->
+  <div class="overlay" id="setupOverlay" hidden>
+    <div class="overlay-bg"></div>
+    <div class="setup-card">
+      <div class="setup-top">
+        <div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.2l3.2 8.4 5.3-8.4 5.3 8.4 3.2-8.4"/></svg></div>
+        <div class="setup-brand">webOS Control Center</div>
+        <button class="icon-ghost" id="setupClose" title="Close" aria-label="Close">
+          <svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>
+        </button>
+      </div>
+
+      <div class="setup-step" id="stepScan">
+        <div class="radar" id="radar">
+          <div class="radar-ring r1"></div>
+          <div class="radar-ring r2"></div>
+          <div class="radar-ring r3"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-core">
+            <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12.5" rx="2.5"/><path d="M8 3l4 3 4-3"/><path d="M8.5 21h7"/></svg>
+          </div>
+        </div>
+        <h2>Find your TV</h2>
+        <p class="sheet-sub">Keep the TV on and on the same Wi‑Fi as this PC.</p>
+
+        <div class="tv-list" id="tvList"></div>
+
+        <div class="manual-row">
+          <input id="ipInput" type="text" inputmode="decimal" placeholder="192.168.1.42" autocomplete="off" spellcheck="false" aria-label="TV IP address">
+          <button id="ipConnectBtn">Connect</button>
+        </div>
+
+        <div class="setup-links">
+          <button id="rescanBtn">Scan again</button>
+          <span>·</span>
+          <button id="helpBtn">Need help?</button>
+        </div>
+
+        <div class="setup-help" id="setupHelp" hidden>
+          <p><b>On the TV:</b> Settings → Connection → Wi‑Fi connection → Advanced Wi‑Fi settings. The IP is listed there.</p>
+          <p>Pairing needs <b>LG Connect Apps</b> (older TVs) or just the on-screen prompt (2018+). Accept it with the remote.</p>
+          <p>If the scan finds nothing, type the IP above. A firewall prompt for Node.js/Electron should be allowed on private networks.</p>
+        </div>
+      </div>
+
+      <div class="setup-step" id="stepPair" hidden>
+        <div class="pair-visual">
+          <div class="pair-wave w1"></div>
+          <div class="pair-wave w2"></div>
+          <div class="pair-wave w3"></div>
+          <div class="pair-tv">
+            <svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="13" rx="2.6"/><path d="M8 21h8M12 18v3"/></svg>
+          </div>
+        </div>
+        <h2>Look at your TV</h2>
+        <p class="sheet-sub">Press <b>Allow</b> on the pairing prompt using your TV remote.</p>
+        <div class="pair-status"><span class="spinner"></span><span id="pairText">Waiting for your TV…</span></div>
+        <button class="ghost-btn" id="pairCancelBtn">Cancel</button>
+      </div>
+
+      <div class="setup-step" id="stepError" hidden>
+        <div class="error-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 8v5"/><path d="M12 16.8h.01"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <h2 id="setupErrorTitle">Could not connect</h2>
+        <p class="sheet-sub" id="setupErrorText">Check the IP address and try again.</p>
+        <button class="primary-btn" id="setupRetryBtn">Try again</button>
+        <button class="link-btn" id="setupBackBtn">Scan for TVs</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ------------------------------------------------------------- sheets -->
+  <div class="scrim" id="scrim" hidden></div>
+
+  <section class="sheet" id="keyboardSheet" hidden>
+    <div class="sheet-grab"></div>
+    <div class="sheet-head">
+      <h3>Send text to TV</h3>
+      <button class="icon-ghost sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>
+      </button>
+    </div>
+    <p class="sheet-hint">Open a search or text field on the TV first.</p>
+    <input id="tvTextInput" class="sheet-input" type="text" placeholder="Type something…" autocomplete="off" spellcheck="false">
+    <div class="key-row">
+      <button class="key-chip" id="kbSpaceBtn">Space</button>
+      <button class="key-chip" id="kbBackBtn">Backspace</button>
+      <button class="key-chip" id="kbEnterBtn">Enter</button>
+    </div>
+    <button class="primary-btn" id="kbSendBtn">Send to TV</button>
+  </section>
+
+  <section class="sheet" id="inputsSheet" hidden>
+    <div class="sheet-grab"></div>
+    <div class="sheet-head">
+      <h3>Switch input</h3>
+      <button class="icon-ghost sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>
+      </button>
+    </div>
+    <div class="input-list" id="inputList"></div>
+  </section>
+
+  <section class="sheet compact" id="powerSheet" hidden>
+    <div class="sheet-grab"></div>
+    <div class="confirm-badge">
+      <svg viewBox="0 0 24 24"><path d="M12 3.2v8.6"/><path d="M6.4 6.2a8.2 8.2 0 1 0 11.2 0"/></svg>
+    </div>
+    <h3 class="center">Turn off the TV?</h3>
+    <p class="sheet-hint center">You can wake it again from this widget.</p>
+    <div class="sheet-actions">
+      <button class="ghost-btn sheet-close">Cancel</button>
+      <button class="danger-btn" id="confirmPowerOffBtn">Turn off</button>
+    </div>
+  </section>
+
+  <section class="sheet" id="channelSheet" hidden>
+    <div class="sheet-grab"></div>
+    <div class="sheet-head">
+      <h3>Enter a channel</h3>
+      <button class="icon-ghost sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>
+      </button>
+    </div>
+    <div class="ch-entry" id="chEntry">—</div>
+    <div class="keypad" id="keypad">
+      <button data-digit="1">1</button><button data-digit="2">2</button><button data-digit="3">3</button>
+      <button data-digit="4">4</button><button data-digit="5">5</button><button data-digit="6">6</button>
+      <button data-digit="7">7</button><button data-digit="8">8</button><button data-digit="9">9</button>
+      <button class="keypad-fn" data-digit="back" aria-label="Backspace">⌫</button>
+      <button data-digit="0">0</button>
+      <button class="keypad-ok" data-digit="ok">OK</button>
+    </div>
+    <p class="sheet-hint center">Digits are sent to the TV, then OK.</p>
+  </section>
+
+  <section class="sheet" id="customAppSheet" hidden>
+    <div class="sheet-grab"></div>
+    <div class="sheet-head">
+      <h3>Launch a custom app</h3>
+      <button class="icon-ghost sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>
+      </button>
+    </div>
+    <p class="sheet-hint">Paste an app ID from your TV, for example <code>netflix</code> or <code>com.webos.app.browser</code>.</p>
+    <input id="customAppInput" class="sheet-input" type="text" placeholder="com.example.app" autocomplete="off" spellcheck="false">
+    <button class="primary-btn" id="customAppLaunchBtn">Launch on TV</button>
+  </section>
+</div>
+
+<script src="mock.js"></script>
+<script src="apps.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

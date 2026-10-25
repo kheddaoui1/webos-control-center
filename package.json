@@ -1,0 +1,36 @@
+{
+  "name": "webos-control-center",
+  "productName": "webOS Control Center",
+  "version": "1.0.1",
+  "description": "A beautiful always-on-top control center for LG webOS TVs on Windows 11",
+  "private": true,
+  "license": "MIT",
+  "author": "webOS Control Center contributors",
+  "keywords": [
+    "webos",
+    "lg",
+    "tv",
+    "remote",
+    "electron",
+    "windows"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "preview": "node scripts/preview-server.js",
+    "package:win": "electron-packager . --platform=win32 --arch=x64 --icon=assets/icon.ico --out=dist --overwrite --no-asar --ignore=\"^/docs($|/)\" --ignore=\"^/dist($|/)\"",
+    "diagnose": "node scripts/diagnose.js",
+    "icons": "node scripts/make-icons.js",
+    "check": "node --check src/main.js && node --check src/preload.js && node --check src/lib/lgtv.js && node --check src/lib/discovery.js && node --check src/lib/wol.js && node --check src/renderer/app.js && node --check src/renderer/apps.js && node --check src/renderer/mock.js"
+  },
+  "dependencies": {
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "^45.0.0"
+  }
+}
