@@ -70,6 +70,7 @@ const tvState = {
   message: '',
   volume: 25,
   muted: false,
+  volumeFixed: false,
   soundOutput: '',
   channel: { number: '', name: '', id: '' },
   appId: '',
@@ -160,6 +161,15 @@ function applyVolume(payload) {
   }
   if (payload.soundOutput && payload.soundOutput !== tvState.soundOutput) {
     tvState.soundOutput = payload.soundOutput;
+    changed = true;
+  }
+  // Newer webOS nests the numbers in volumeStatus; adjustVolume=false / a negative volume
+  // means the TV hands volume off to an external amp.
+  const status = payload.volumeStatus || payload;
+  if (status.adjustVolume === false || (typeof status.volume === 'number' && status.volume < 0)) {
+    if (!tvState.volumeFixed) { tvState.volumeFixed = true; changed = true; }
+  } else if (typeof status.volume === 'number' && tvState.volumeFixed) {
+    tvState.volumeFixed = false;
     changed = true;
   }
   if (changed) pushState();
@@ -515,6 +525,8 @@ async function forgetTV() {
     message: '',
     volume: 25,
     muted: false,
+    volumeFixed: false,
+    soundOutput: '',
     channel: { number: '', name: '', id: '' },
     appId: '',
     info: {},

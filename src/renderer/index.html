@@ -72,10 +72,16 @@
           <div class="vol-num" id="volNum">25</div>
           <div class="vol-cap">VOLUME</div>
         </div>
+        <button class="round-btn vol-step" id="volDownBtn" aria-label="Volume down" title="Volume down (-)">
+          <svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg>
+        </button>
         <div class="vol-track-wrap">
           <input id="volSlider" class="vol-slider" type="range" min="0" max="100" step="1" value="25" aria-label="Volume">
           <div class="vol-labels"><span>0</span><span>50</span><span>100</span></div>
         </div>
+        <button class="round-btn vol-step" id="volUpBtn" aria-label="Volume up" title="Volume up (+)">
+          <svg viewBox="0 0 24 24"><path d="M6 12h12M12 6v12"/></svg>
+        </button>
         <button class="round-btn mute-btn" id="muteBtn" aria-label="Mute">
           <svg class="ico-vol" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3.5v6h3L11 19V5z"/><path d="M15.4 8.6a4.8 4.8 0 0 1 0 6.8"/><path d="M18.2 5.8a8.8 8.8 0 0 1 0 12.4"/></svg>
           <svg class="ico-mute" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3.5v6h3L11 19V5z"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg>
