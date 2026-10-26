@@ -304,10 +304,12 @@ function startPolling() {
     if (!tv || !tv.isConnected()) return;
     if (win && !win.isVisible()) return;
     tv.request('ssap://audio/getVolume').then(applyVolume).catch(() => {});
+    // Some TVs never push getSoundOutput subscription updates, so poll it too (AVR <-> TV speakers).
+    tv.request('ssap://audio/getSoundOutput').then(applySound).catch(() => {});
     tv.request('ssap://tv/getCurrentChannel').then(applyChannel).catch(() => {});
     tv.request('ssap://com.webos.applicationManager/getForegroundAppInfo').then(applyApp).catch(() => {});
     tv.request('ssap://com.webos.service.tvpower/power/getPowerState').then(applyPower).catch(() => {});
-  }, 12000);
+  }, 5000);
 }
 
 function stopPolling() {
