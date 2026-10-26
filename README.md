@@ -1,11 +1,16 @@
 # webOS Control Center
 
+[![release](https://img.shields.io/github/v/release/kheddaoui1/webos-control-center?color=e11d48)](https://github.com/kheddaoui1/webos-control-center/releases/latest)
+[![check](https://github.com/kheddaoui1/webos-control-center/actions/workflows/check.yml/badge.svg)](https://github.com/kheddaoui1/webos-control-center/actions/workflows/check.yml)
+[![license](https://img.shields.io/github/license/kheddaoui1/webos-control-center?color=blue)](LICENSE)
+[![platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078d4)](#requirements)
+
 A small, always-on-top control center for LG webOS TVs, built for Windows 11.
 It talks to the TV directly over your Wi-Fi — no cloud, no account, no phone app.
 
-| First run | Remote |
-|---|---|
-| ![Find your TV](docs/setup.png) | ![Remote tab](docs/remote.png) |
+**[Download the latest release](https://github.com/kheddaoui1/webos-control-center/releases/latest)** — portable zip, no installer.
+
+![Switching between Remote, Apps and Settings, and raising the volume](docs/demo.gif)
 
 ## What it can do
 
@@ -47,6 +52,8 @@ A widget appears near the right edge of your screen. If this PC has never been p
 **Find your TV** screen and waits — it never connects to a TV on its own.
 
 ### First-time pairing
+
+![Find your TV](docs/setup.png)
 
 1. On the TV: **Settings → Connection → Wi-Fi connection → Advanced Wi-Fi settings** — note the IP address.
 2. In the widget, type the IP (for example `192.168.1.42`) and press **Connect**.
