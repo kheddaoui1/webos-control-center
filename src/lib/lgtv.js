@@ -418,7 +418,8 @@ class LGTV extends EventEmitter {
       }, timeout);
       this._pending.set(id, { resolve, reject, timer });
       try {
-        this.ws.send(JSON.stringify({ id, type: 'request', uri, payload }));
+        // Without subscribe:true webOS answers once and never sends `changed` events.
+        this.ws.send(JSON.stringify({ id, type: 'request', uri, payload: Object.assign({ subscribe: true }, payload) }));
       } catch (err) {
         clearTimeout(timer);
         this._pending.delete(id);
