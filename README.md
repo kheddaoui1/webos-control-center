@@ -176,6 +176,17 @@ The result is `dist/webOS Control Center-win32-x64/`. Create a desktop shortcut 
 Issues and pull requests are welcome. Run `npm run check` before opening a PR, and keep the
 UI dependency-free (plain HTML/CSS/JS).
 
+## Support
+
+webOS Control Center is built and maintained by one person in their spare time, with no company and
+no funding behind it. If it saved you a walk across the room:
+
+- **Sponsor the project** on [GitHub Sponsors](https://github.com/sponsors/kheddaoui1). Recurring
+  support pays for test hardware — a second TV on a different webOS version is the main thing
+  standing between this and reliable support for older sets.
+- **Star the repo** and share it with someone who keeps getting up for the remote.
+- **Report what breaks.** A TV model plus the firmware version is the most useful bug report there is.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
