@@ -8,7 +8,7 @@
 A small, always-on-top control center for LG webOS TVs, built for Windows 11.
 It talks to the TV directly over your Wi-Fi — no cloud, no account, no phone app.
 
-**[Download the latest release](https://github.com/kheddaoui1/webos-control-center/releases/latest)** — portable zip, no installer.
+**[Download for Windows](https://github.com/kheddaoui1/webos-control-center/releases/latest)** — unzip and run the exe. No installer, no Node.js.
 
 ![Switching between Remote, Apps and Settings, and raising the volume](docs/demo.gif)
 
@@ -31,12 +31,26 @@ It talks to the TV directly over your Wi-Fi — no cloud, no account, no phone a
 
 | | |
 |---|---|
-| PC | Windows 10 or 11, Node.js 18+ |
+| PC | Windows 10 or 11, 64-bit |
 | TV | LG webOS TV (2016 or newer works best) |
 | Network | PC and TV on the same Wi-Fi / LAN |
 | TV setting | *Settings → Connection → Mobile Connection Management → TV On With Mobile* enabled (needed for Wake-on-LAN) |
 
-## Run it
+Running from source also needs Node.js 18+; the release build already includes its runtime.
+
+## Install
+
+1. Download `webos-control-center-<version>-win-x64.zip` from
+   [Releases](https://github.com/kheddaoui1/webos-control-center/releases/latest).
+2. Extract it anywhere and run **`webOS Control Center.exe`**.
+
+No installer, no admin rights, no Node.js. The build is portable — delete the folder to uninstall;
+settings and the pairing key stay in `%APPDATA%\webOS Control Center`.
+
+The exe is unsigned, so Windows SmartScreen may warn the first time: **More info → Run anyway**.
+If you would rather check the code first, run it from source below.
+
+## Run from source
 
 ```bat
 cd webos-control-center
