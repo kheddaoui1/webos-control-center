@@ -51,7 +51,7 @@ const UI = {
   setupStep: 'scan',
   setupIp: '',
   setupAutoScan: false,
-  version: '1.0.1',
+  version: (document.querySelector('meta[name="app-version"]') || {}).content || '1.0.1',
   sounds: true,
   volDragging: false,
   forgetArmed: false,
@@ -1323,7 +1323,7 @@ async function init() {
 
   UI.config = { ...UI.config, ...(data.config || {}) };
   UI.state = { ...UI.state, ...(data.state || {}) };
-  UI.version = data.version || '1.0.1';
+  UI.version = data.version || (document.querySelector('meta[name="app-version"]') || {}).content || '1.0.1';
   UI.sounds = UI.config.sounds !== false;
 
   $('#appVersion').textContent = UI.version;

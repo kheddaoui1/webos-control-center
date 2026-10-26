@@ -78,7 +78,7 @@
         emit({ type: 'apps', apps, source: 'launchPoints' });
         emit({ type: 'inputs', inputs });
       }, 500);
-      return { config, state, version: '1.0.1' };
+      return { config, state, version: (document.querySelector('meta[name="app-version"]') || {}).content || '' };
     },
     onEvent: (callback) => {
       listeners.push(callback);

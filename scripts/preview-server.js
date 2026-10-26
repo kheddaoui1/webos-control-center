@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..', 'src', 'renderer');
+const pkg = require(path.join(__dirname, '..', 'package.json'));
 const port = Number(process.env.PORT) || 4173;
 
 const types = {
@@ -32,6 +33,13 @@ const server = http.createServer((req, res) => {
     if (err) {
       res.writeHead(404, { 'Content-Type': 'text/plain' }).end('Not found');
       return;
+    }
+    if (rel === 'index.html') {
+      // The browser build has no app.getVersion(); expose the real one to the mock.
+      // A meta tag keeps this working under the page's inline-script CSP.
+      data = Buffer.from(
+        data.toString('utf8').replace('</head>', `<meta name="app-version" content="${pkg.version}"></head>`)
+      );
     }
     res.writeHead(200, {
       'Content-Type': types[path.extname(file).toLowerCase()] || 'application/octet-stream',
