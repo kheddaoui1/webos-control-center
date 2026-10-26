@@ -1,0 +1,49 @@
+name: Bug report
+description: A button, tab, or connection does not match what the TV does.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing. A report with a TV model and firmware version is worth ten without one -
+        webOS changes its SSAP surface between major versions, and that is usually the whole answer.
+  - type: input
+    id: model
+    attributes:
+      label: TV model
+      description: On the TV, Settings -> All Settings -> General -> About This TV.
+      placeholder: OLED55C1PUB
+    validations:
+      required: true
+  - type: input
+    id: firmware
+    attributes:
+      label: webOS version and firmware
+      placeholder: webOS 6.2.1 / 03.21.30
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 23H2
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens
+      description: Which button or tab, what you expected, and what the TV actually did.
+    validations:
+      required: true
+  - type: textarea
+    id: sound
+    attributes:
+      label: Audio output
+      description: TV speakers, soundbar, AVR over ARC, optical, or Bluetooth. This decides whether the volume slider is supposed to work.
+  - type: textarea
+    id: log
+    attributes:
+      label: Diagnostics
+      description: On the source build, run `npm run diagnose -- <tv-ip>` and paste the output.
+      render: shell

@@ -1,0 +1,21 @@
+name: Feature request
+description: A button or behaviour this remote should have.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the moment that made you want this, not the implementation.
+      placeholder: My TV is across the room and I want to switch to HDMI 2 without opening the input sheet.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would make it easier?
+  - type: input
+    id: model
+    attributes:
+      label: TV model (optional)
+      placeholder: OLED55C1PUB
