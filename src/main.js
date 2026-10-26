@@ -163,10 +163,11 @@ function applyVolume(payload) {
     tvState.soundOutput = payload.soundOutput;
     changed = true;
   }
-  // Newer webOS nests the numbers in volumeStatus; adjustVolume=false / a negative volume
-  // means the TV hands volume off to an external amp.
+  // Newer webOS nests the numbers in volumeStatus. volumeAdjustable=false (older sets call it
+  // adjustVolume) or a negative volume means the TV hands volume off to an external amp.
   const status = payload.volumeStatus || payload;
-  if (status.adjustVolume === false || (typeof status.volume === 'number' && status.volume < 0)) {
+  const fixedByFlag = status.volumeAdjustable === false || status.adjustVolume === false;
+  if (fixedByFlag || (typeof status.volume === 'number' && status.volume < 0)) {
     if (!tvState.volumeFixed) { tvState.volumeFixed = true; changed = true; }
   } else if (typeof status.volume === 'number' && tvState.volumeFixed) {
     tvState.volumeFixed = false;

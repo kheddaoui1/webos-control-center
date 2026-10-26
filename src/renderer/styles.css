@@ -292,7 +292,7 @@ svg.fill, svg.fill path, svg.fill rect { fill: currentColor; stroke: none; }
 /* ============================================================ volume */
 .volume-card {
   flex: none; height: 100px; margin-bottom: 12px; padding: 13px 14px 11px 18px;
-  display: flex; align-items: center; gap: 14px; overflow: hidden;
+  display: flex; align-items: center; gap: 10px; overflow: hidden;
 }
 
 .volume-card::after {
@@ -302,12 +302,12 @@ svg.fill, svg.fill path, svg.fill rect { fill: currentColor; stroke: none; }
 }
 
 .vol-readout {
-  flex: none; width: 52px; display: flex; flex-direction: column;
+  flex: none; width: 46px; display: flex; flex-direction: column;
   align-items: flex-start; justify-content: center;
 }
 
 .vol-num {
-  font-size: 33px; line-height: 1; font-weight: 700; letter-spacing: -1.6px;
+  font-size: 30px; line-height: 1; font-weight: 700; letter-spacing: -1.4px;
   font-variant-numeric: tabular-nums;
   background: linear-gradient(180deg, #ffffff 18%, #cfc6dd 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -317,7 +317,7 @@ svg.fill, svg.fill path, svg.fill rect { fill: currentColor; stroke: none; }
 .vol-num.muted { opacity: 0.4; }
 
 /* AVR owns the volume: show "AVR", grey out the slider; +/- and mute still work. */
-.is-avr .vol-num { font-size: 21px; letter-spacing: -0.4px; }
+.is-avr .vol-num { font-size: 19px; letter-spacing: -0.3px; }
 .is-avr .vol-slider { opacity: 0.35; filter: grayscale(1); cursor: default; }
 .is-avr .vol-slider::-webkit-slider-thumb { box-shadow: none; transform: none; }
 .is-avr .vol-labels { opacity: 0.35; }
@@ -365,7 +365,7 @@ svg.fill, svg.fill path, svg.fill rect { fill: currentColor; stroke: none; }
 }
 
 .round-btn svg { width: 18px; height: 18px; }
-.vol-step { width: 30px; height: 30px; }
+.vol-step { width: 28px; height: 28px; }
 .vol-step svg { width: 16px; height: 16px; stroke-width: 2.2; }
 .round-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
 .round-btn:active { transform: scale(0.9); }

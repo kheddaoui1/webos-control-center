@@ -9,7 +9,7 @@ It talks to the TV directly over your Wi-Fi — no cloud, no account, no phone a
 
 ## What it can do
 
-- **Volume** — slider with live feedback, mute, volume up/down
+- **Volume** - slider with live feedback, `-` / `+` step buttons with hold-to-repeat, mute, volume up/down. When a soundbar or AVR owns the volume the slider greys out and reads **AVR**; the step buttons and mute still work.
 - **Channels** — channel up/down, on-screen keypad for direct channel entry
 - **D-pad** — up / down / left / right / OK, with press-and-hold repeat
 - **Magic Remote pointer** — drag the ring around the D-pad to move the cursor, scroll to browse
@@ -107,6 +107,7 @@ Wake sends magic packets to ports 9 and 7 on the broadcast address of your subne
 | App list is empty | The TV did not answer `listLaunchPoints`; press the refresh button on the Apps tab. |
 | Every button returns `401 insufficient permissions` | Update to the current build and reconnect. webOS 26 (firmware 43.x+) ignores the old signed registration manifest, so the widget now registers with an unsigned manifest that requests the permissions explicitly. Run `npm run diagnose -- <tv-ip> <client-key>` to confirm they are granted. |
 | Some buttons do nothing | Not every webOS version exposes every command (e.g. screen-off on older models). The rest of the remote still works. |
+| Volume slider is greyed out and reads **AVR** | Your TV is sending audio to a soundbar, AVR, or optical output, so it has no absolute volume to set. Use the `-` / `+` buttons, mute, or the amp's own remote. |
 | Widget is too large/small | It scales itself to your screen height. For unusual DPI setups, adjust `BASE_HEIGHT` in `src/main.js`. |
 | It seems to come back after I close it | With **Close to tray** on, the **×** button only hides the window. Use **Settings → This widget → Quit widget** or the tray menu's **Quit**. If it still starts with Windows, turn off **Launch at login**. |
 
