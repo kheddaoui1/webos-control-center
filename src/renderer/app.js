@@ -194,11 +194,21 @@ function renderStatus() {
   $('#powerLabel').textContent = isConnected() ? 'Power' : (wake ? 'Wake' : 'Power');
 }
 
+// Outputs where the TV can't set an absolute volume: the amp/soundbar owns it.
+const AVR_OUTPUTS = ['external_arc', 'external_optical', 'external_speaker', 'tv_external_speaker', 'soundbar'];
+
+function isAvr() {
+  return !!UI.state.volumeFixed || AVR_OUTPUTS.includes(UI.state.soundOutput);
+}
+
 function renderRemote() {
   const volume = clamp(Math.round(Number(UI.state.volume) || 0), 0, 100);
+  const avr = isAvr();
   const volNum = $('#volNum');
-  volNum.textContent = String(volume);
+  volNum.textContent = avr ? 'AVR' : String(volume);
   volNum.classList.toggle('muted', !!UI.state.muted);
+  $('#volumeCard').classList.toggle('is-avr', avr);
+  $('#volSlider').disabled = avr;
   $('#volSlider').style.setProperty('--p', String(volume));
   if (!UI.volDragging) $('#volSlider').value = String(volume);
   $('#muteBtn').classList.toggle('muted', !!UI.state.muted);
@@ -369,7 +379,9 @@ async function handlePower() {
     openSheet('power');
     return;
   }
-  if (['connecting', 'pairing', 'idle'].includes(UI.state.status)) {
+  // 'connecting' also covers startup with the TV off, where the app is retrying forever;
+  // a magic packet is harmless if the TV is actually on, so send it instead of just waiting.
+  if (['pairing', 'idle'].includes(UI.state.status)) {
     if (UI.state.status === 'idle' && !UI.config.ip) openSetup();
     else toast('Trying to reach your TV…', 'info');
     return;
@@ -575,6 +587,32 @@ function bindRemote() {
       event.preventDefault();
       setVolume(Number(slider.value) + (event.key === 'ArrowRight' ? 1 : -1), true);
     }
+  });
+
+  // +/- send the remote's VOLUMEUP/DOWN keys, which still work when an AVR owns the volume.
+  // Hold to repeat: first step on press, then repeat after a short delay.
+  [['#volUpBtn', 'volumeUp'], ['#volDownBtn', 'volumeDown']].forEach(([selector, method]) => {
+    const button = $(selector);
+    let delayTimer = null;
+    let repeatTimer = null;
+    const step = () => { api[method]().catch(() => {}); };
+    const stop = () => {
+      clearTimeout(delayTimer);
+      clearInterval(repeatTimer);
+      delayTimer = repeatTimer = null;
+    };
+    button.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || !requireTV()) return;
+      stop();
+      step();
+      delayTimer = setTimeout(() => { repeatTimer = setInterval(step, 120); }, 400);
+    });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach((name) => button.addEventListener(name, stop));
+    window.addEventListener('blur', stop);
+    // Keyboard activation (Enter/Space) produces a click with no pointer events.
+    button.addEventListener('click', (event) => {
+      if (event.detail === 0 && requireTV()) step();
+    });
   });
 
   $('#muteBtn').addEventListener('click', toggleMute);

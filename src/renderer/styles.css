@@ -316,11 +316,18 @@ svg.fill, svg.fill path, svg.fill rect { fill: currentColor; stroke: none; }
 
 .vol-num.muted { opacity: 0.4; }
 
+/* AVR owns the volume: show "AVR", grey out the slider; +/- and mute still work. */
+.is-avr .vol-num { font-size: 21px; letter-spacing: -0.4px; }
+.is-avr .vol-slider { opacity: 0.35; filter: grayscale(1); cursor: default; }
+.is-avr .vol-slider::-webkit-slider-thumb { box-shadow: none; transform: none; }
+.is-avr .vol-labels { opacity: 0.35; }
+
 .vol-cap {
   margin-top: 3px; font-size: 7.5px; font-weight: 700; letter-spacing: 1.5px; color: var(--dim);
 }
 
-.vol-track-wrap { flex: 1; min-width: 0; padding-top: 3px; }
+/* Slider is centred on the card's midline (same as the buttons); labels hang below it. */
+.vol-track-wrap { position: relative; flex: 1; min-width: 0; height: 42px; display: flex; align-items: center; }
 
 .vol-slider {
   appearance: none; -webkit-appearance: none; display: block; width: 100%; height: 6px; margin: 0;
@@ -345,7 +352,8 @@ svg.fill, svg.fill path, svg.fill rect { fill: currentColor; stroke: none; }
 .vol-slider:active::-webkit-slider-thumb { transform: scale(1.22); }
 
 .vol-labels {
-  display: flex; justify-content: space-between; margin-top: 5px; padding: 0 1px;
+  position: absolute; left: 0; right: 0; top: calc(50% + 12px);
+  display: flex; justify-content: space-between; padding: 0 1px;
   font-size: 7.5px; color: rgba(255, 255, 255, 0.23); font-variant-numeric: tabular-nums;
 }
 
@@ -357,6 +365,8 @@ svg.fill, svg.fill path, svg.fill rect { fill: currentColor; stroke: none; }
 }
 
 .round-btn svg { width: 18px; height: 18px; }
+.vol-step { width: 30px; height: 30px; }
+.vol-step svg { width: 16px; height: 16px; stroke-width: 2.2; }
 .round-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
 .round-btn:active { transform: scale(0.9); }
 .mute-btn .ico-mute { display: none; }

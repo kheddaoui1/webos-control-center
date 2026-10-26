@@ -70,6 +70,7 @@ const tvState = {
   message: '',
   volume: 25,
   muted: false,
+  volumeFixed: false,
   soundOutput: '',
   channel: { number: '', name: '', id: '' },
   appId: '',
@@ -160,6 +161,15 @@ function applyVolume(payload) {
   }
   if (payload.soundOutput && payload.soundOutput !== tvState.soundOutput) {
     tvState.soundOutput = payload.soundOutput;
+    changed = true;
+  }
+  // Newer webOS nests the numbers in volumeStatus; adjustVolume=false / a negative volume
+  // means the TV hands volume off to an external amp.
+  const status = payload.volumeStatus || payload;
+  if (status.adjustVolume === false || (typeof status.volume === 'number' && status.volume < 0)) {
+    if (!tvState.volumeFixed) { tvState.volumeFixed = true; changed = true; }
+  } else if (typeof status.volume === 'number' && tvState.volumeFixed) {
+    tvState.volumeFixed = false;
     changed = true;
   }
   if (changed) pushState();
@@ -294,10 +304,12 @@ function startPolling() {
     if (!tv || !tv.isConnected()) return;
     if (win && !win.isVisible()) return;
     tv.request('ssap://audio/getVolume').then(applyVolume).catch(() => {});
+    // Some TVs never push getSoundOutput subscription updates, so poll it too (AVR <-> TV speakers).
+    tv.request('ssap://audio/getSoundOutput').then(applySound).catch(() => {});
     tv.request('ssap://tv/getCurrentChannel').then(applyChannel).catch(() => {});
     tv.request('ssap://com.webos.applicationManager/getForegroundAppInfo').then(applyApp).catch(() => {});
     tv.request('ssap://com.webos.service.tvpower/power/getPowerState').then(applyPower).catch(() => {});
-  }, 12000);
+  }, 5000);
 }
 
 function stopPolling() {
@@ -515,6 +527,8 @@ async function forgetTV() {
     message: '',
     volume: 25,
     muted: false,
+    volumeFixed: false,
+    soundOutput: '',
     channel: { number: '', name: '', id: '' },
     appId: '',
     info: {},
